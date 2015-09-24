@@ -33,6 +33,7 @@ var stars;
 var score = 0;
 var scoreText;
 var dangerText;
+var gameOverText;
 
 function create() {
 
@@ -160,9 +161,10 @@ function collectStar (player, star) {
     if (star.isDangerous)
     {
         player.deadCount++;
-        if (player.deadCount>3)
+        if (player.deadCount>=3)
         {
             player.kill();
+            gameOverText = game.add.text(game.world.centerX, 350, 'GAME OVER', { font: "50px Arial", fill: "#cdba52", align: "center" });
         }
         //  Substract and update the score
         score -= 10;
