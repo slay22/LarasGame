@@ -34,6 +34,8 @@ var score = 0;
 var scoreText;
 var dangerText;
 var gameOverText;
+var starCount = 0;
+var totalGoodStarCount = 0;
 
 function create() {
 
@@ -92,7 +94,12 @@ function create() {
     {
         //  Create a star inside of the 'stars' group
         var star = stars.create(i * 70, 0, 'star');
-        star.isDangerous = (Math.floor(Math.random() * 2) == 0 ? false : true);
+        star.isDangerous = (Math.floor(Math.random() * 2)!= 0);
+
+        if (!star.isDangerous)
+        {
+            totalGoodStarCount++;
+        }
 
         //  Let gravity do its thing
         star.body.gravity.y = 300;
@@ -155,6 +162,7 @@ function update() {
 function collectStar (player, star) {
     
     // Removes the star from the screen
+
     star.kill();
     if (star.isDangerous)
     {
@@ -171,9 +179,17 @@ function collectStar (player, star) {
     }
     else
     {
-        //  Add and update the score
-        score += 10;
-        scoreText.text = 'Score: ' + score;
+        starCount++;
+        if (starCount >= totalGoodStarCount)
+        {
+            gameOverText = game.add.text(game.world.centerX, 350, 'YOU WON', { font: "50px Arial", fill: "#AEB404", align: "center" });
+        }
+        else
+        {
+            //  Add and update the score
+            score += 10;
+            scoreText.text = 'Score: ' + score;
+        }
     }
 }
 
